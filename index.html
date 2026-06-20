@@ -265,6 +265,24 @@
           <select id="voiceSel" style="flex:1;background:var(--night-2);color:var(--parchment);border:1px solid var(--line);border-radius:8px;padding:.6rem;font-family:var(--ui);font-size:.85rem"></select>
         </div>
       </div>
+      <div class="opt-row hidden" id="voiceRow" style="display:block">
+        <div class="t">Velocidad
+          <small>Más lento para efecto misterioso</small>
+        </div>
+        <div class="slider">
+          <input type="range" id="voiceRate" min="0.6" max="1.4" step="0.1" value="0.9">
+          <div class="v"><span id="voiceRateV">0.9</span>x</div>
+        </div>
+      </div>
+      <div class="opt-row hidden" id="voiceRow" style="display:block">
+        <div class="t">Tono
+          <small>Más grave para narrador medieval</small>
+        </div>
+        <div class="slider">
+          <input type="range" id="voicePitch" min="0.5" max="2" step="0.1" value="0.8">
+          <div class="v"><span id="voicePitchV">0.8</span></div>
+        </div>
+      </div>
     </div>
 
     <div class="start">
@@ -322,7 +340,7 @@ const OPTIONAL = [
 
 /* ---------- estado ---------- */
 const cfg = {players:7, percival:true, mordred:false, morgana:true, oberon:false,
-             voice:true, auto:true, pause:4};
+             voice:true, auto:true, pause:4, voiceRate:0.9, voicePitch:0.8};
 
 /* ---------- referencias DOM ---------- */
 const $ = id => document.getElementById(id);
@@ -416,6 +434,8 @@ function bindSwitch(elId,key,extra){
 bindSwitch('voiceToggle','voice',()=>$('voiceRow').classList.toggle('hidden',!cfg.voice));
 bindSwitch('autoToggle','auto');
 $('pause').oninput=e=>{ cfg.pause=+e.target.value; $('pauseV').textContent=cfg.pause; };
+$('voiceRate').oninput=e=>{ cfg.voiceRate=+e.target.value; $('voiceRateV').textContent=cfg.voiceRate.toFixed(1); };
+$('voicePitch').oninput=e=>{ cfg.voicePitch=+e.target.value; $('voicePitchV').textContent=cfg.voicePitch.toFixed(1); };
 
 /* ---------- voces ---------- */
 let voices=[];
@@ -479,17 +499,31 @@ function setMood(m){
   else if(m==='dawn'){ orb.classList.add('dawn'); }
 }
 
-function speak(text,onDone){
-  if(!cfg.voice || !window.speechSynthesis){ onDone&&onDone(); return; }
-  speechSynthesis.cancel();
-  const u=new SpeechSynthesisUtterance(text);
-  const v=voices[+($('voiceSel').value)||0];
-  if(v) u.voice=v;
-  u.lang=v?v.lang:'es-ES';
-  u.rate=.95; u.pitch=1;
-  u.onend=()=>onDone&&onDone();
-  u.onerror=()=>onDone&&onDone();
-  speechSynthesis.speak(u);
+let currentSpeechId=0;
+async function speak(text,onDone){
+  if(!cfg.voice){ onDone&&onDone(); return; }
+  const thisId=++currentSpeechId;
+  
+  try{
+    if(!window.speechSynthesis){ onDone&&onDone(); return; }
+    speechSynthesis.cancel();
+    
+    const u=new SpeechSynthesisUtterance(text);
+    const v=voices[+($('voiceSel').value)||0];
+    if(v) u.voice=v;
+    u.lang=v?v.lang:'es-ES';
+    u.rate=cfg.voiceRate;
+    u.pitch=cfg.voicePitch;
+    u.volume=1;
+    
+    u.onend=()=>{ if(thisId===currentSpeechId) onDone&&onDone(); };
+    u.onerror=()=>{ if(thisId===currentSpeechId) onDone&&onDone(); };
+    
+    speechSynthesis.speak(u);
+  }catch(e){
+    console.error('Speech error:',e);
+    onDone&&onDone();
+  }
 }
 
 function showStep(){
@@ -515,8 +549,19 @@ function showStep(){
   renderControls();
 }
 
-function next(){ clearTimeout(timer); if(window.speechSynthesis)speechSynthesis.cancel(); idx++; showStep(); }
-function repeat(){ clearTimeout(timer); showStep(); }
+function next(){ 
+  currentSpeechId++; // invalida cualquier callback pendiente
+  if(window.speechSynthesis){ speechSynthesis.cancel(); }
+  clearTimeout(timer); 
+  idx++; 
+  showStep();
+}
+function repeat(){ 
+  currentSpeechId++; // invalida cualquier callback pendiente
+  if(window.speechSynthesis){ speechSynthesis.cancel(); }
+  clearTimeout(timer); 
+  showStep();
+}
 function togglePause(){
   paused=!paused;
   if(paused){ clearTimeout(timer); if(window.speechSynthesis)speechSynthesis.pause(); }
@@ -549,12 +594,15 @@ function renderControls(){
 }
 
 function finish(){
-  if(window.speechSynthesis)speechSynthesis.cancel();
+  currentSpeechId++; // invalida cualquier callback pendiente
+  if(window.speechSynthesis){ speechSynthesis.cancel(); }
+  clearTimeout(timer);
   show('done');
 }
 function reset(){
+  currentSpeechId++; // invalida cualquier callback pendiente
+  if(window.speechSynthesis){ speechSynthesis.cancel(); }
   clearTimeout(timer);
-  if(window.speechSynthesis)speechSynthesis.cancel();
   paused=false; idx=0;
   show('setup');
 }
