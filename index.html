@@ -11,16 +11,16 @@
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=Spectral:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   :root{
-    --night:#0a0d18;
-    --night-2:#11152a;
-    --panel:rgba(255,255,255,0.03);
-    --candle:#e3b34e;
-    --candle-soft:#f0d28a;
-    --crimson:#b13347;
-    --crimson-soft:#d4566a;
-    --parchment:#ece3d0;
+    --night:#05080f;
+    --night-2:#0a1428;
+    --panel:rgba(192,192,192,0.03);
+    --silver:#c0c0c0;
+    --silver-soft:#e8f0f7;
+    --blue:#4a90e2;
+    --blue-dark:#0f1f3f;
+    --parchment:#dae8f2;
     --muted:#6b7390;
-    --line:rgba(236,227,208,0.12);
+    --line:rgba(192,192,192,0.12);
     --display:'Cormorant Garamond',Georgia,serif;
     --read:'Spectral',Georgia,serif;
     --ui:system-ui,-apple-system,'Segoe UI',sans-serif;
@@ -29,7 +29,7 @@
   html,body{height:100%}
   body{
     background:
-      radial-gradient(120% 90% at 50% -10%, #1a1f3a 0%, var(--night) 55%, #05060d 100%);
+      radial-gradient(120% 90% at 50% -10%, #0f1f3f 0%, var(--night) 55%, #05060d 100%);
     color:var(--parchment);
     font-family:var(--read);
     min-height:100dvh;
@@ -51,7 +51,7 @@
     font-family:var(--display);font-weight:700;font-size:clamp(2.4rem,8vw,3.6rem);
     line-height:.95;letter-spacing:.01em;
   }
-  h1 .sub{display:block;font-style:italic;font-weight:500;font-size:.5em;color:var(--candle);letter-spacing:.04em;margin-top:.15em}
+  h1 .sub{display:block;font-style:italic;font-weight:500;font-size:.5em;color:var(--blue);letter-spacing:.04em;margin-top:.15em}
   .lede{color:var(--muted);font-size:1.02rem;margin-top:1rem;max-width:46ch}
 
   /* ---------- setup ---------- */
@@ -72,12 +72,12 @@
     background:var(--panel);color:var(--parchment);font-size:1.6rem;font-family:var(--display);
     cursor:pointer;transition:.18s;line-height:1;
   }
-  .counter button:hover{border-color:var(--candle);color:var(--candle)}
+  .counter button:hover{border-color:var(--silver);color:var(--silver)}
   .counter button:active{transform:scale(.92)}
   .count-val{font-family:var(--display);font-size:3.4rem;font-weight:600;min-width:1.6ch;text-align:center}
   .count-meta{font-family:var(--ui);font-size:.78rem;letter-spacing:.05em;line-height:1.7}
-  .count-meta .g{color:var(--candle)}
-  .count-meta .e{color:var(--crimson-soft)}
+  .count-meta .g{color:var(--silver)}
+  .count-meta .e{color:var(--blue)}
 
   /* roles */
   .roles{display:flex;flex-direction:column;gap:.5rem}
@@ -87,18 +87,18 @@
     transition:.18s;user-select:none;position:relative;
   }
   .role .crest{width:9px;height:9px;border-radius:50%;flex:none;box-shadow:0 0 10px currentColor}
-  .role.good .crest{color:var(--candle);background:var(--candle)}
-  .role.evil .crest{color:var(--crimson);background:var(--crimson)}
+  .role.good .crest{color:var(--silver);background:var(--silver)}
+  .role.evil .crest{color:var(--blue);background:var(--blue)}
   .role .name{font-family:var(--display);font-size:1.35rem;font-weight:600;flex:none}
   .role .desc{font-family:var(--ui);font-size:.76rem;color:var(--muted);line-height:1.4;flex:1}
   .role .mark{
     width:26px;height:26px;border-radius:7px;border:1px solid var(--line);flex:none;
     display:grid;place-items:center;transition:.18s;
   }
-  .role.on{border-color:rgba(227,179,78,.5);background:rgba(227,179,78,.06)}
-  .role.evil.on{border-color:rgba(177,51,71,.5);background:rgba(177,51,71,.07)}
-  .role.on .mark{background:var(--candle);border-color:var(--candle)}
-  .role.evil.on .mark{background:var(--crimson);border-color:var(--crimson)}
+  .role.on{border-color:rgba(192,192,192,.5);background:rgba(192,192,192,.06)}
+  .role.evil.on{border-color:rgba(74,144,226,.5);background:rgba(74,144,226,.07)}
+  .role.on .mark{background:var(--silver);border-color:var(--silver)}
+  .role.evil.on .mark{background:var(--blue);border-color:var(--blue)}
   .role .mark svg{opacity:0;transition:.18s}
   .role.on .mark svg{opacity:1}
   .role.fixed{cursor:default;opacity:.9}
@@ -107,8 +107,8 @@
   .role .tag{font-family:var(--ui);font-size:.6rem;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin-left:auto;flex:none}
 
   .warn{
-    font-family:var(--ui);font-size:.8rem;color:var(--crimson-soft);margin-top:.9rem;
-    padding-left:1.1rem;border-left:2px solid var(--crimson);line-height:1.5;
+    font-family:var(--ui);font-size:.8rem;color:var(--blue);margin-top:.9rem;
+    padding-left:1.1rem;border-left:2px solid var(--blue);line-height:1.5;
   }
 
   /* options */
@@ -118,11 +118,11 @@
   .opt-row .t small{display:block;color:var(--muted);font-size:.74rem;margin-top:.15em}
   .switch{width:46px;height:26px;border-radius:14px;background:rgba(255,255,255,.1);position:relative;cursor:pointer;transition:.2s;flex:none}
   .switch::after{content:"";position:absolute;top:3px;left:3px;width:20px;height:20px;border-radius:50%;background:var(--parchment);transition:.2s}
-  .switch.on{background:var(--candle)}
+  .switch.on{background:var(--silver)}
   .switch.on::after{left:23px;background:var(--night)}
   .slider{display:flex;align-items:center;gap:1rem;margin-top:.4rem}
-  input[type=range]{flex:1;accent-color:var(--candle);height:4px}
-  .slider .v{font-family:var(--display);font-size:1.5rem;min-width:3.2ch;text-align:right;color:var(--candle)}
+  input[type=range]{flex:1;accent-color:var(--silver);height:4px}
+  .slider .v{font-family:var(--display);font-size:1.5rem;min-width:3.2ch;text-align:right;color:var(--silver)}
 
   /* start button */
   .start{
@@ -131,76 +131,230 @@
   .btn-primary{
     width:100%;padding:1.15rem;border:none;border-radius:14px;cursor:pointer;
     font-family:var(--display);font-size:1.5rem;font-weight:600;letter-spacing:.02em;
-    color:var(--night);background:linear-gradient(180deg,var(--candle-soft),var(--candle));
-    box-shadow:0 0 40px rgba(227,179,78,.25);transition:.18s;
+    color:var(--night);background:linear-gradient(180deg,var(--silver-soft),var(--silver));
+    box-shadow:0 0 40px rgba(192,192,192,.25);transition:.18s;
   }
-  .btn-primary:hover{box-shadow:0 0 60px rgba(227,179,78,.4)}
+  .btn-primary:hover{box-shadow:0 0 60px rgba(192,192,192,.4)}
   .btn-primary:active{transform:scale(.985)}
 
   details.ref{margin-top:1.6rem;border-top:1px solid var(--line);padding-top:1rem}
   details.ref summary{font-family:var(--ui);font-size:.78rem;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);cursor:pointer;list-style:none}
   details.ref summary::-webkit-details-marker{display:none}
-  details.ref summary::before{content:"▸ ";color:var(--candle)}
+  details.ref summary::before{content:"▸ ";color:var(--silver)}
   details.ref[open] summary::before{content:"▾ "}
   .ref table{width:100%;border-collapse:collapse;margin-top:1rem;font-family:var(--ui);font-size:.82rem}
   .ref th,.ref td{padding:.45rem .3rem;text-align:center;border-bottom:1px solid var(--line)}
   .ref th{color:var(--muted);font-weight:500;font-size:.7rem;letter-spacing:.08em;text-transform:uppercase}
-  .ref td:first-child{color:var(--candle);font-family:var(--display);font-size:1.1rem}
+  .ref td:first-child{color:var(--silver);font-family:var(--display);font-size:1.1rem}
 
-  /* ---------- narration ---------- */
-  #narrate{align-items:center;justify-content:center;text-align:center;position:relative}
-  .orb-wrap{position:relative;display:grid;place-items:center;margin:1rem 0 2.4rem}
+  /* ---------- NARRATION SCREEN ---------- */
+  #narrate{align-items:center;justify-content:center;text-align:center;position:relative;overflow:hidden}
+  #narrate::before{
+    content:"";position:absolute;inset:0;
+    background:
+      radial-gradient(circle at 20% 30%, rgba(192,192,192,0.08) 0%, transparent 35%),
+      radial-gradient(circle at 80% 70%, rgba(74,144,226,0.08) 0%, transparent 35%);
+    pointer-events:none;z-index:0;
+  }
+
+  .orb-wrap{position:relative;display:grid;place-items:center;margin:2.5rem 0 3rem;z-index:2}
+  
+  .orb-wrap::before{
+    content:"";position:absolute;inset:-50px;
+    background:conic-gradient(from 0deg, var(--silver), var(--blue), var(--silver));
+    border-radius:50%;opacity:.2;animation:flameAura 4s ease-in-out infinite;
+    filter:blur(30px);
+  }
+  
+  @keyframes flameAura{
+    0%,100%{opacity:.15;transform:scale(1) rotate(0deg)}
+    50%{opacity:.25;transform:scale(1.15) rotate(180deg)}
+  }
+  
   .orb{
-    width:150px;height:150px;border-radius:50%;
-    background:radial-gradient(circle at 50% 42%, var(--candle-soft), var(--candle) 35%, #7a5a18 78%, transparent 80%);
-    box-shadow:0 0 60px 10px rgba(227,179,78,.35), inset 0 0 30px rgba(0,0,0,.3);
-    transition:background .8s, box-shadow .8s, transform .8s;
+    width:160px;height:160px;border-radius:50%;
+    background:radial-gradient(circle at 50% 42%, var(--silver), var(--silver-soft) 35%, #7a9ec4 78%, transparent 80%);
+    box-shadow:
+      0 0 80px 15px rgba(192,192,192,.4),
+      0 0 120px 30px rgba(192,192,192,.15),
+      inset 0 0 40px rgba(0,0,0,.4),
+      inset -15px -15px 30px rgba(0,0,0,.2);
+    transition:all .6s ease;
     position:relative;
+    border:3px solid rgba(192,192,192,.4);
   }
+  
+  .orb::before{
+    content:"";position:absolute;inset:12%;border-radius:50%;
+    background:radial-gradient(circle at 40% 40%, rgba(255,255,255,.4), transparent 70%);
+    box-shadow:inset 0 0 15px rgba(255,255,255,.1);
+  }
+  
   .orb.evil{
-    background:radial-gradient(circle at 50% 42%, var(--crimson-soft), var(--crimson) 38%, #4a121d 80%, transparent 82%);
-    box-shadow:0 0 60px 10px rgba(177,51,71,.4), inset 0 0 30px rgba(0,0,0,.35);
+    background:radial-gradient(circle at 50% 42%, var(--blue), var(--blue) 38%, #1e3a5f 80%, transparent 82%);
+    box-shadow:
+      0 0 80px 15px rgba(74,144,226,.5),
+      0 0 120px 30px rgba(74,144,226,.2),
+      inset 0 0 40px rgba(0,0,0,.45);
+    border-color:rgba(74,144,226,.4);
   }
+  
   .orb.dawn{
-    background:radial-gradient(circle at 50% 42%, #fff6e0, var(--candle-soft) 40%, #8a6a28 82%, transparent 84%);
-    box-shadow:0 0 90px 24px rgba(240,210,138,.5), inset 0 0 30px rgba(0,0,0,.2);
+    background:radial-gradient(circle at 50% 42%, #f0f8ff, var(--silver-soft) 40%, #9ab5d5 82%, transparent 84%);
+    box-shadow:
+      0 0 100px 25px rgba(232,240,247,.6),
+      0 0 160px 50px rgba(232,240,247,.25),
+      inset 0 0 40px rgba(0,0,0,.2);
+    border-color:rgba(232,240,247,.5);
   }
-  .orb.dim{transform:scale(.82);box-shadow:0 0 24px 4px rgba(227,179,78,.12)}
-  .orb.dim.evil{box-shadow:0 0 24px 4px rgba(177,51,71,.14)}
-  .orb.speaking{animation:breathe 2.6s ease-in-out infinite}
-  @keyframes breathe{0%,100%{transform:scale(1)}50%{transform:scale(1.07)}}
-  .ring{position:absolute;inset:-26px;border-radius:50%;border:1px solid var(--line);opacity:.5}
-  .ring.r2{inset:-52px;opacity:.25}
-
-  .step-tag{font-family:var(--ui);font-size:.68rem;letter-spacing:.34em;text-transform:uppercase;color:var(--muted);margin-bottom:1.2rem}
+  
+  .orb.dim{transform:scale(.78);opacity:.75}
+  
+  .orb.speaking{animation:orbMedievalBreathe 2.8s ease-in-out infinite}
+  @keyframes orbMedievalBreathe{
+    0%,100%{transform:scale(1)}
+    25%{transform:scale(1.04)}
+    50%{transform:scale(1.1)}
+    75%{transform:scale(1.04)}
+  }
+  
+  .ring{
+    position:absolute;inset:-32px;border-radius:50%;
+    border:2px solid rgba(192,192,192,.3);opacity:.6;
+    box-shadow:0 0 30px rgba(192,192,192,.2),inset 0 0 20px rgba(192,192,192,.1);
+    animation:ringPulse 3s ease-in-out infinite;
+  }
+  
+  @keyframes ringPulse{
+    0%,100%{transform:scale(1);opacity:.5}
+    50%{transform:scale(1.1);opacity:.8}
+  }
+  
+  .ring.r2{inset:-64px;border-width:1px;opacity:.3;animation:none}
+  
+  /* Medieval Gothic Frame */
+  .step-tag{
+    font-family:var(--display);font-size:.75rem;letter-spacing:.4em;text-transform:uppercase;
+    color:var(--silver);margin-bottom:1.5rem;font-weight:700;
+    text-shadow:0 2px 10px rgba(192,192,192,.5);
+    position:relative;
+    padding:1rem 2.5rem;
+    border-top:3px double var(--silver);
+    border-bottom:3px double var(--silver);
+    background:linear-gradient(90deg, transparent 0%, rgba(192,192,192,.12) 50%, transparent 100%);
+    z-index:2;
+  }
+  
+  .step-tag::before{
+    content:"⬡";position:absolute;left:8px;color:var(--silver);font-size:1rem;
+    text-shadow:0 0 8px rgba(192,192,192,.6);
+  }
+  
+  .step-tag::after{
+    content:"⬡";position:absolute;right:8px;color:var(--silver);font-size:1rem;
+    text-shadow:0 0 8px rgba(192,192,192,.6);
+  }
+  
   .line{
-    font-family:var(--display);font-weight:600;
-    font-size:clamp(1.9rem,6vw,2.9rem);line-height:1.18;
-    max-width:18ch;margin:0 auto;min-height:3.4em;display:flex;align-items:center;justify-content:center;
+    font-family:var(--display);font-weight:700;
+    font-size:clamp(2rem,6.5vw,3rem);line-height:1.2;
+    max-width:22ch;margin:2rem auto;min-height:4.5em;
+    display:flex;align-items:center;justify-content:center;
     transition:opacity .4s;
+    text-shadow:0 3px 15px rgba(0,0,0,.6);
+    position:relative;
+    padding:2.5rem 2rem;
+    background:linear-gradient(135deg, rgba(192,192,192,.08) 0%, transparent 50%, rgba(192,192,192,.04) 100%);
+    border-left:4px solid rgba(192,192,192,.4);
+    border-right:4px solid rgba(192,192,192,.4);
+    z-index:2;
   }
-  .line.evil-text{color:var(--crimson-soft)}
-  .line.good-text{color:var(--candle)}
-  .progress{display:flex;gap:7px;justify-content:center;margin-top:2rem}
-  .progress i{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.13);transition:.3s}
-  .progress i.done{background:var(--muted)}
-  .progress i.cur{background:var(--candle);box-shadow:0 0 10px var(--candle);transform:scale(1.3)}
-
-  .controls{display:flex;gap:.7rem;justify-content:center;margin-top:2.6rem;flex-wrap:wrap}
+  
+  .line::before{
+    content:"";position:absolute;top:-12px;left:50%;transform:translateX(-50%);
+    width:50px;height:3px;
+    background:linear-gradient(90deg, transparent 0%, var(--silver) 50%, transparent 100%);
+    box-shadow:0 0 15px rgba(192,192,192,.4);
+  }
+  
+  .line::after{
+    content:"";position:absolute;bottom:-12px;left:50%;transform:translateX(-50%);
+    width:50px;height:3px;
+    background:linear-gradient(90deg, transparent 0%, var(--silver) 50%, transparent 100%);
+    box-shadow:0 0 15px rgba(192,192,192,.4);
+  }
+  
+  .line.evil-text{color:var(--blue);text-shadow:0 3px 15px rgba(74,144,226,.5)}
+  .line.good-text{color:var(--silver);text-shadow:0 3px 15px rgba(192,192,192,.5)}
+  
+  .progress{
+    display:flex;gap:12px;justify-content:center;margin:2.5rem 0;flex-wrap:wrap;
+    z-index:2;position:relative;
+  }
+  
+  .progress i{
+    width:12px;height:12px;border-radius:50%;
+    background:rgba(255,255,255,.1);transition:.3s;
+    box-shadow:0 0 8px rgba(192,192,192,.15);
+    border:1.5px solid rgba(192,192,192,.3);
+  }
+  
+  .progress i.done{background:var(--muted);box-shadow:0 0 10px rgba(107,115,144,.4)}
+  
+  .progress i.cur{
+    background:var(--silver);
+    box-shadow:0 0 20px var(--silver),0 0 40px rgba(192,192,192,.3);
+    transform:scale(1.35);animation:orbPulse 1.6s ease-in-out infinite;
+    border-color:var(--silver-soft);
+  }
+  
+  @keyframes orbPulse{
+    0%,100%{box-shadow:0 0 20px var(--silver),0 0 40px rgba(192,192,192,.3)}
+    50%{box-shadow:0 0 30px var(--silver),0 0 60px rgba(192,192,192,.5)}
+  }
+  
+  .controls{
+    display:flex;gap:1.2rem;justify-content:center;margin-top:3rem;flex-wrap:wrap;
+    position:relative;z-index:10;
+  }
+  
   .ctrl{
-    font-family:var(--ui);font-size:.82rem;letter-spacing:.04em;
-    padding:.7rem 1.15rem;border-radius:10px;border:1px solid var(--line);
-    background:var(--panel);color:var(--parchment);cursor:pointer;transition:.18s;
-    display:inline-flex;align-items:center;gap:.5em;
+    font-family:var(--ui);font-size:.85rem;letter-spacing:.05em;font-weight:500;
+    padding:1rem 1.6rem;border-radius:6px;border:2px solid rgba(192,192,192,.4);
+    background:linear-gradient(135deg, rgba(192,192,192,.1) 0%, rgba(192,192,192,.03) 100%);
+    color:var(--parchment);cursor:pointer;transition:.2s;
+    display:inline-flex;align-items:center;gap:.7em;
+    text-shadow:0 1px 3px rgba(0,0,0,.4);
+    box-shadow:0 6px 20px rgba(0,0,0,.4),inset 0 1px 0 rgba(255,255,255,.1);
   }
-  .ctrl:hover{border-color:var(--candle);color:var(--candle)}
-  .ctrl:active{transform:scale(.95)}
-  .ctrl.main{background:rgba(227,179,78,.1);border-color:rgba(227,179,78,.4);color:var(--candle);font-size:.95rem;padding:.85rem 1.7rem}
-  .ctrl.ghost{color:var(--muted);border-color:transparent}
-  .ctrl svg{width:16px;height:16px;fill:currentColor}
+  
+  .ctrl:hover{
+    border-color:var(--silver);color:var(--silver);
+    box-shadow:0 0 20px rgba(192,192,192,.4),0 6px 20px rgba(0,0,0,.4);
+    background:linear-gradient(135deg, rgba(192,192,192,.2) 0%, rgba(192,192,192,.1) 100%);
+  }
+  
+  .ctrl:active{transform:scale(.92)}
+  
+  .ctrl.main{
+    background:linear-gradient(135deg, rgba(192,192,192,.25) 0%, rgba(192,192,192,.15) 100%);
+    border-color:rgba(192,192,192,.7);color:var(--silver);font-size:1rem;padding:1.1rem 2rem;
+    font-weight:700;box-shadow:0 0 25px rgba(192,192,192,.25),0 6px 20px rgba(0,0,0,.4);
+  }
+  
+  .ctrl.main:hover{
+    box-shadow:0 0 35px rgba(192,192,192,.5),0 6px 20px rgba(0,0,0,.4);
+    background:linear-gradient(135deg, rgba(192,192,192,.35) 0%, rgba(192,192,192,.2) 100%);
+  }
+  
+  .ctrl.ghost{color:var(--muted);border-color:transparent;background:transparent;box-shadow:none}
+  .ctrl.ghost:hover{color:var(--silver);border-color:var(--silver)}
+  
+  .ctrl svg{width:20px;height:20px;fill:currentColor}
 
-  .done-card{text-align:center}
-  .done-card h2{font-family:var(--display);font-size:2.6rem;font-weight:600;color:var(--candle)}
+  /* Done screen */
+  .done-card{text-align:center;z-index:2;position:relative}
+  .done-card h2{font-family:var(--display);font-size:2.6rem;font-weight:600;color:var(--silver)}
   .done-card p{color:var(--muted);margin:1rem 0 2rem;font-size:1.05rem}
 
   .note{font-family:var(--ui);font-size:.74rem;color:var(--muted);margin-top:2rem;line-height:1.5;max-width:42ch}
@@ -325,314 +479,128 @@
 
 <script>
 "use strict";
-/* ---------- datos del juego ---------- */
 const SPLIT = {5:[3,2],6:[4,2],7:[4,3],8:[5,3],9:[6,3],10:[6,4]};
-const MISSIONS = {
-  5:[2,3,2,3,3], 6:[2,3,4,3,4], 7:[2,3,3,4,4],
-  8:[3,4,4,5,5], 9:[3,4,4,5,5], 10:[3,4,4,5,5]
-};
+const MISSIONS = {5:[2,3,2,3,3],6:[2,3,4,3,4],7:[2,3,3,4,4],8:[3,4,4,5,5],9:[3,4,4,5,5],10:[3,4,4,5,5]};
 const OPTIONAL = [
   {id:'percival',name:'Percival',side:'good',desc:'Conoce a Merlín y a Morgana, pero no sabe quién es quién.'},
-  {id:'mordred', name:'Mordred', side:'evil',desc:'Esbirro oculto: Merlín nunca lo ve.'},
-  {id:'morgana', name:'Morgana', side:'evil',desc:'Esbirra que se muestra como Merlín ante Percival.'},
-  {id:'oberon',  name:'Oberón',  side:'evil',desc:'Esbirro solitario: ni conoce ni es conocido por los demás malos.'},
+  {id:'mordred',name:'Mordred',side:'evil',desc:'Esbirro oculto: Merlín nunca lo ve.'},
+  {id:'morgana',name:'Morgana',side:'evil',desc:'Esbirra que se muestra como Merlín ante Percival.'},
+  {id:'oberon',name:'Oberón',side:'evil',desc:'Esbirro solitario: ni conoce ni es conocido por los demás malos.'},
 ];
 
-/* ---------- estado ---------- */
-const cfg = {players:7, percival:true, mordred:false, morgana:true, oberon:false,
-             voice:true, auto:true, pause:4, voiceRate:0.9, voicePitch:0.8};
+const cfg = {players:7,percival:true,mordred:false,morgana:true,oberon:false,voice:true,auto:true,pause:4,voiceRate:0.9,voicePitch:0.8};
+const $ = id=>document.getElementById(id);
+const screens = {setup:$('setup'),narrate:$('narrate'),done:$('done')};
 
-/* ---------- referencias DOM ---------- */
-const $ = id => document.getElementById(id);
-const screens = {setup:$('setup'), narrate:$('narrate'), done:$('done')};
-
-/* ====== construir tabla de referencia ====== */
 (function(){
   let html='';
   for(let p=5;p<=10;p++){
-    const [g,e]=SPLIT[p], m=MISSIONS[p];
+    const [g,e]=SPLIT[p],m=MISSIONS[p];
     html+=`<tr><td>${p}</td><td>${g}</td><td>${e}</td>${m.map(x=>`<td>${x}</td>`).join('')}</tr>`;
   }
   $('refbody').innerHTML=html;
 })();
 
-/* ====== render configuración ====== */
-function evilSelected(){ return 1 + (cfg.mordred?1:0)+(cfg.morgana?1:0)+(cfg.oberon?1:0); } // +1 = Asesino
-function evilSlots(){ return SPLIT[cfg.players][1]; }
+function evilSelected(){return 1+(cfg.mordred?1:0)+(cfg.morgana?1:0)+(cfg.oberon?1:0);}
+function evilSlots(){return SPLIT[cfg.players][1];}
 
 function renderRoles(){
   const box=$('roles');
-  // fijos
-  let html=`
-    <div class="role good fixed">
-      <span class="crest"></span><span class="name">Merlín</span>
-      <span class="desc">Conoce a los esbirros del Mal (salvo a Mordred).</span>
-      <span class="tag">Siempre</span>
-    </div>
-    <div class="role evil fixed">
-      <span class="crest"></span><span class="name">Asesino</span>
-      <span class="desc">Un esbirro. Si el Bien gana, intenta adivinar a Merlín.</span>
-      <span class="tag">Siempre</span>
-    </div>`;
-  const check=`<svg width="14" height="14" viewBox="0 0 14 14"><path d="M2 7l3.5 3.5L12 3" stroke="#0a0d18" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
-  OPTIONAL.forEach(r=>{
-    const on=cfg[r.id];
-    const wouldExceed = r.side==='evil' && !on && (evilSelected()+1>evilSlots());
-    box && (html+=`
-      <div class="role ${r.side} ${on?'on':''} ${wouldExceed?'disabled':''}" data-id="${r.id}">
-        <span class="crest"></span><span class="name">${r.name}</span>
-        <span class="desc">${r.desc}</span>
-        <span class="mark">${check}</span>
-      </div>`);
-  });
+  let html=`<div class="role good fixed"><span class="crest"></span><span class="name">Merlín</span><span class="desc">Conoce a los esbirros del Mal (salvo a Mordred).</span><span class="tag">Siempre</span></div><div class="role evil fixed"><span class="crest"></span><span class="name">Asesino</span><span class="desc">Un esbirro. Si el Bien gana, intenta adivinar a Merlín.</span><span class="tag">Siempre</span></div>`;
+  const check=`<svg width="14" height="14" viewBox="0 0 14 14"><path d="M2 7l3.5 3.5L12 3" stroke="#05080f" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+  OPTIONAL.forEach(r=>{const on=cfg[r.id];const wouldExceed=r.side==='evil'&&!on&&(evilSelected()+1>evilSlots());html+=`<div class="role ${r.side} ${on?'on':''} ${wouldExceed?'disabled':''}" data-id="${r.id}"><span class="crest"></span><span class="name">${r.name}</span><span class="desc">${r.desc}</span><span class="mark">${check}</span></div>`;});
   box.innerHTML=html;
-  box.querySelectorAll('.role[data-id]').forEach(el=>{
-    el.onclick=()=>{
-      if(el.classList.contains('disabled')) return;
-      const id=el.dataset.id;
-      cfg[id]=!cfg[id];
-      refresh();
-    };
-  });
-  // aviso
+  box.querySelectorAll('.role[data-id]').forEach(el=>{el.onclick=()=>{if(el.classList.contains('disabled'))return;const id=el.dataset.id;cfg[id]=!cfg[id];refresh();};});
   const w=$('warn');
-  if(evilSelected()>evilSlots()){
-    w.textContent=`Hay ${evilSelected()} personajes malos elegidos pero esta partida solo admite ${evilSlots()}. Quita uno.`;
-    w.classList.remove('hidden');
-  } else if(cfg.morgana && !cfg.percival){
-    w.textContent='Morgana solo tiene efecto si Percival está en juego. Funciona, pero no aportará nada.';
-    w.classList.remove('hidden');
-  } else if(cfg.percival && !cfg.morgana){
-    w.textContent='Sin Morgana, Percival verá únicamente a Merlín (sin señuelo).';
-    w.classList.remove('hidden');
-  } else w.classList.add('hidden');
+  if(evilSelected()>evilSlots()){w.textContent=`Hay ${evilSelected()} personajes malos elegidos pero esta partida solo admite ${evilSlots()}. Quita uno.`;w.classList.remove('hidden');}else if(cfg.morgana&&!cfg.percival){w.textContent='Morgana solo tiene efecto si Percival está en juego. Funciona, pero no aportará nada.';w.classList.remove('hidden');}else if(cfg.percival&&!cfg.morgana){w.textContent='Sin Morgana, Percival verá únicamente a Merlín (sin señuelo).';w.classList.remove('hidden');}else w.classList.add('hidden');
 }
 
-function renderSplit(){
-  const [g,e]=SPLIT[cfg.players];
-  $('pcount').textContent=cfg.players;
-  $('split').innerHTML=`<span class="g">${g} del Bien</span><br><span class="e">${e} del Mal</span>`;
-}
+function renderSplit(){const [g,e]=SPLIT[cfg.players];$('pcount').textContent=cfg.players;$('split').innerHTML=`<span class="g">${g} del Bien</span><br><span class="e">${e} del Mal</span>`;}
+function refresh(){renderSplit();renderRoles();}
 
-function refresh(){ renderSplit(); renderRoles(); }
+$('minus').onclick=()=>{cfg.players=Math.max(5,cfg.players-1);['oberon','morgana','mordred'].forEach(id=>{if(evilSelected()>evilSlots()&&cfg[id])cfg[id]=false;});refresh();};
+$('plus').onclick=()=>{cfg.players=Math.min(10,cfg.players+1);refresh();};
 
-/* contador de jugadores */
-$('minus').onclick=()=>{ cfg.players=Math.max(5,cfg.players-1); clampEvil(); refresh(); };
-$('plus').onclick =()=>{ cfg.players=Math.min(10,cfg.players+1); refresh(); };
-function clampEvil(){
-  // al bajar jugadores, desactiva malos sobrantes en orden oberón→morgana→mordred
-  ['oberon','morgana','mordred'].forEach(id=>{
-    if(evilSelected()>evilSlots() && cfg[id]) cfg[id]=false;
-  });
-}
-
-/* toggles */
-function bindSwitch(elId,key,extra){
-  const el=$(elId);
-  el.onclick=()=>{ cfg[key]=!cfg[key]; el.classList.toggle('on',cfg[key]); el.setAttribute('aria-checked',cfg[key]); extra&&extra(); };
-}
+function bindSwitch(elId,key,extra){const el=$(elId);el.onclick=()=>{cfg[key]=!cfg[key];el.classList.toggle('on',cfg[key]);el.setAttribute('aria-checked',cfg[key]);extra&&extra();};} 
 bindSwitch('voiceToggle','voice',()=>$('voiceRow').classList.toggle('hidden',!cfg.voice));
 bindSwitch('autoToggle','auto');
-$('pause').oninput=e=>{ cfg.pause=+e.target.value; $('pauseV').textContent=cfg.pause; };
-$('voiceRate').oninput=e=>{ cfg.voiceRate=+e.target.value; $('voiceRateV').textContent=cfg.voiceRate.toFixed(1); };
-$('voicePitch').oninput=e=>{ cfg.voicePitch=+e.target.value; $('voicePitchV').textContent=cfg.voicePitch.toFixed(1); };
+$('pause').oninput=e=>{cfg.pause=+e.target.value;$('pauseV').textContent=cfg.pause;};
+$('voiceRate').oninput=e=>{cfg.voiceRate=+e.target.value;$('voiceRateV').textContent=cfg.voiceRate.toFixed(1);};
+$('voicePitch').oninput=e=>{cfg.voicePitch=+e.target.value;$('voicePitchV').textContent=cfg.voicePitch.toFixed(1);};
 
-/* ---------- voces ---------- */
 let voices=[];
-function loadVoices(){
-  voices=(window.speechSynthesis?speechSynthesis.getVoices():[]).filter(v=>v.lang.toLowerCase().startsWith('es'));
-  const sel=$('voiceSel'); if(!sel) return;
-  if(!voices.length){ sel.innerHTML='<option>No hay voces en español instaladas</option>'; return; }
-  sel.innerHTML=voices.map((v,i)=>`<option value="${i}">${v.name} · ${v.lang}</option>`).join('');
-}
-if(window.speechSynthesis){
-  loadVoices();
-  speechSynthesis.onvoiceschanged=loadVoices;
-}else{
-  cfg.voice=false; $('voiceToggle').classList.remove('on');
-}
+function loadVoices(){voices=(window.speechSynthesis?speechSynthesis.getVoices():[]).filter(v=>v.lang.toLowerCase().startsWith('es'));const sel=$('voiceSel');if(!sel)return;if(!voices.length){sel.innerHTML='<option>No hay voces en español instaladas</option>';return;}sel.innerHTML=voices.map((v,i)=>`<option value="${i}">${v.name} · ${v.lang}</option>`).join('');}
+if(window.speechSynthesis){loadVoices();speechSynthesis.onvoiceschanged=loadVoices;}else{cfg.voice=false;$('voiceToggle').classList.remove('on');}
 
-/* ---------- generar guión ---------- */
 function buildScript(){
-  const s=[];
-  const push=(text,mood,extra)=>s.push({text,mood,pause:cfg.pause+(extra||0)});
-  const oberonExcept = cfg.oberon ? ', excepto Oberón' : '';
-
+  const s=[];const push=(text,mood,extra)=>s.push({text,mood,pause:cfg.pause+(extra||0)});const oberonExcept=cfg.oberon?', excepto Oberón':'';
   push('Todos los jugadores: cierren los ojos y extiendan el puño frente a ustedes.','all',1);
-
-  // reconocimiento del mal
   push(`Esbirros de Mordred${oberonExcept}: abran los ojos y reconózcanse entre ustedes.`,'evil',3);
   push(`Esbirros de Mordred${oberonExcept}: cierren los ojos.`,'evil',0);
-
-  // Merlín
-  const merlinExcept = cfg.mordred ? ', excepto Mordred,' : '';
+  const merlinExcept=cfg.mordred?', excepto Mordred,':'';
   push(`Esbirros de Mordred${merlinExcept} levanten el pulgar para que Merlín pueda reconocerlos.`,'evil',1);
   push('Merlín: abre los ojos y observa quiénes son los agentes del Mal.','good',3);
   push('Esbirros de Mordred: bajen el pulgar y vuelvan a cerrar el puño.','evil',0);
   push('Merlín: cierra los ojos.','good',0);
-
-  // Percival
-  if(cfg.percival){
-    const pair = cfg.morgana ? 'Merlín y Morgana' : 'Merlín';
-    push(`${pair}: levanten el pulgar para que Percival pueda reconocerlos.`,'good',1);
-    push(`Percival: abre los ojos y observa a ${pair}.`,'good',3);
-    push(`${pair}: bajen el pulgar.`,'good',0);
-    push('Percival: cierra los ojos.','good',0);
-  }
-
+  if(cfg.percival){const pair=cfg.morgana?'Merlín y Morgana':'Merlín';push(`${pair}: levanten el pulgar para que Percival pueda reconocerlos.`,'good',1);push(`Percival: abre los ojos y observa a ${pair}.`,'good',3);push(`${pair}: bajen el pulgar.`,'good',0);push('Percival: cierra los ojos.','good',0);}
   push('Todos los jugadores: abran los ojos. La noche ha terminado.','dawn',0);
   return s;
 }
 
-/* ---------- motor de narración ---------- */
-let script=[], idx=0, paused=false, timer=null;
-const orb=$('orb'), lineEl=$('line'), stepTag=$('stepTag'), progEl=$('progress');
+let script=[],idx=0,paused=false,timer=null,currentSpeechId=0;
+const orb=$('orb'),lineEl=$('line'),stepTag=$('stepTag'),progEl=$('progress');
 
-function renderProgress(){
-  progEl.innerHTML=script.map((_,i)=>`<i class="${i<idx?'done':i===idx?'cur':''}"></i>`).join('');
-}
+function renderProgress(){progEl.innerHTML=script.map((_,i)=>`<i class="${i<idx?'done':i===idx?'cur':''}"></i>`).join('');}
+
 function setMood(m){
-  orb.classList.remove('evil','dawn');
-  lineEl.classList.remove('evil-text','good-text');
-  if(m==='evil'){ orb.classList.add('evil'); lineEl.classList.add('evil-text'); }
-  else if(m==='good'){ lineEl.classList.add('good-text'); }
-  else if(m==='dawn'){ orb.classList.add('dawn'); }
+  orb.classList.remove('evil','dawn');lineEl.classList.remove('evil-text','good-text');
+  if(m==='evil'){orb.classList.add('evil');lineEl.classList.add('evil-text');}else if(m==='good'){lineEl.classList.add('good-text');}else if(m==='dawn'){orb.classList.add('dawn');}
 }
 
-let currentSpeechId=0;
 async function speak(text,onDone){
-  if(!cfg.voice){ onDone&&onDone(); return; }
-  const thisId=++currentSpeechId;
-  
-  try{
-    if(!window.speechSynthesis){ onDone&&onDone(); return; }
-    speechSynthesis.cancel();
-    
-    const u=new SpeechSynthesisUtterance(text);
-    const v=voices[+($('voiceSel').value)||0];
-    if(v) u.voice=v;
-    u.lang=v?v.lang:'es-ES';
-    u.rate=cfg.voiceRate;
-    u.pitch=cfg.voicePitch;
-    u.volume=1;
-    
-    u.onend=()=>{ if(thisId===currentSpeechId) onDone&&onDone(); };
-    u.onerror=()=>{ if(thisId===currentSpeechId) onDone&&onDone(); };
-    
-    speechSynthesis.speak(u);
-  }catch(e){
-    console.error('Speech error:',e);
-    onDone&&onDone();
-  }
+  if(!cfg.voice){onDone&&onDone();return;}
+  const thisId=++currentSpeechId;try{
+    if(!window.speechSynthesis){onDone&&onDone();return;}
+    speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(text);const v=voices[+($('voiceSel').value)||0];if(v)u.voice=v;u.lang=v?v.lang:'es-ES';u.rate=cfg.voiceRate;u.pitch=cfg.voicePitch;u.volume=1;
+    u.onend=()=>{if(thisId===currentSpeechId)onDone&&onDone();};u.onerror=()=>{if(thisId===currentSpeechId)onDone&&onDone();};speechSynthesis.speak(u);
+  }catch(e){console.error('Speech error:',e);onDone&&onDone();}
 }
 
 function showStep(){
-  clearTimeout(timer);
-  if(idx>=script.length){ finish(); return; }
-  const step=script[idx];
-  setMood(step.mood);
-  stepTag.textContent = step.mood==='evil'?'El Mal despierta'
-    : step.mood==='good'?'La visión del Bien'
-    : step.mood==='dawn'?'Amanecer':'La noche';
-  lineEl.style.opacity=0;
-  setTimeout(()=>{ lineEl.textContent=step.text; lineEl.style.opacity=1; },180);
-  renderProgress();
-  orb.classList.remove('dim'); orb.classList.add('speaking');
-
-  speak(step.text,()=>{
-    orb.classList.remove('speaking'); orb.classList.add('dim');
-    if(cfg.auto && !paused){
-      timer=setTimeout(()=>{ if(!paused){ idx++; showStep(); } }, step.pause*1000);
-    }
-    renderControls();
-  });
+  clearTimeout(timer);if(idx>=script.length){finish();return;}
+  const step=script[idx];setMood(step.mood);
+  stepTag.textContent=step.mood==='evil'?'El Mal despierta':step.mood==='good'?'La visión del Bien':step.mood==='dawn'?'Amanecer':'La noche';
+  lineEl.style.opacity=0;setTimeout(()=>{lineEl.textContent=step.text;lineEl.style.opacity=1;},180);
+  renderProgress();orb.classList.remove('dim');orb.classList.add('speaking');
+  speak(step.text,()=>{orb.classList.remove('speaking');orb.classList.add('dim');if(cfg.auto&&!paused){timer=setTimeout(()=>{if(!paused){idx++;showStep();}},step.pause*1000);}renderControls();});
   renderControls();
 }
 
-function next(){ 
-  currentSpeechId++; // invalida cualquier callback pendiente
-  if(window.speechSynthesis){ speechSynthesis.cancel(); }
-  clearTimeout(timer); 
-  idx++; 
-  showStep();
-}
-function repeat(){ 
-  currentSpeechId++; // invalida cualquier callback pendiente
-  if(window.speechSynthesis){ speechSynthesis.cancel(); }
-  clearTimeout(timer); 
-  showStep();
-}
+function next(){currentSpeechId++;if(window.speechSynthesis)speechSynthesis.cancel();clearTimeout(timer);idx++;showStep();}
+function repeat(){currentSpeechId++;if(window.speechSynthesis)speechSynthesis.cancel();clearTimeout(timer);showStep();}
 function togglePause(){
-  paused=!paused;
-  if(paused){ clearTimeout(timer); if(window.speechSynthesis)speechSynthesis.pause(); }
-  else{ if(window.speechSynthesis)speechSynthesis.resume();
-        if(cfg.auto) timer=setTimeout(()=>{ if(!paused){ idx++; showStep(); } }, 1200); }
+  paused=!paused;if(paused){clearTimeout(timer);if(window.speechSynthesis)speechSynthesis.pause();}else{if(window.speechSynthesis)speechSynthesis.resume();if(cfg.auto)timer=setTimeout(()=>{if(!paused){idx++;showStep();}},1200);}
   renderControls();
 }
 
 function renderControls(){
   const c=$('controls');
-  const ic={
-    play:'<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>',
-    pause:'<svg viewBox="0 0 24 24"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>',
-    rep:'<svg viewBox="0 0 24 24"><path d="M12 5V1L7 6l5 5V7a5 5 0 11-5 5H5a7 7 0 107-7z"/></svg>',
-    nxt:'<svg viewBox="0 0 24 24"><path d="M6 18l8.5-6L6 6zM16 6h2v12h-2z"/></svg>'
-  };
+  const ic={play:'<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>',pause:'<svg viewBox="0 0 24 24"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>',rep:'<svg viewBox="0 0 24 24"><path d="M12 5V1L7 6l5 5V7a5 5 0 11-5 5H5a7 7 0 107-7z"/></svg>',nxt:'<svg viewBox="0 0 24 24"><path d="M6 18l8.5-6L6 6zM16 6h2v12h-2z"/></svg>'};
   let btns='';
-  if(cfg.auto){
-    btns+=`<button class="ctrl main" data-a="pause">${paused?ic.play+' Reanudar':ic.pause+' Pausa'}</button>`;
-  }else{
-    btns+=`<button class="ctrl main" data-a="next">${ic.nxt} Siguiente paso</button>`;
-  }
-  btns+=`<button class="ctrl" data-a="repeat">${ic.rep} Repetir</button>`;
-  if(cfg.auto) btns+=`<button class="ctrl" data-a="next">${ic.nxt} Saltar</button>`;
-  btns+=`<button class="ctrl ghost" data-a="quit">Terminar</button>`;
-  c.innerHTML=btns;
-  c.querySelectorAll('button').forEach(b=>{
-    b.onclick=()=>({pause:togglePause,next:next,repeat:repeat,quit:reset}[b.dataset.a])();
-  });
+  if(cfg.auto){btns+=`<button class="ctrl main" data-a="pause">${paused?ic.play+' Reanudar':ic.pause+' Pausa'}</button>`;}else{btns+=`<button class="ctrl main" data-a="next">${ic.nxt} Siguiente paso</button>`;}
+  btns+=`<button class="ctrl" data-a="repeat">${ic.rep} Repetir</button>`;if(cfg.auto)btns+=`<button class="ctrl" data-a="next">${ic.nxt} Saltar</button>`;btns+=`<button class="ctrl ghost" data-a="quit">Terminar</button>`;
+  c.innerHTML=btns;c.querySelectorAll('button').forEach(b=>{b.onclick=()=>({pause:togglePause,next:next,repeat:repeat,quit:reset}[b.dataset.a])();});
 }
 
-function finish(){
-  currentSpeechId++; // invalida cualquier callback pendiente
-  if(window.speechSynthesis){ speechSynthesis.cancel(); }
-  clearTimeout(timer);
-  show('done');
-}
-function reset(){
-  currentSpeechId++; // invalida cualquier callback pendiente
-  if(window.speechSynthesis){ speechSynthesis.cancel(); }
-  clearTimeout(timer);
-  paused=false; idx=0;
-  show('setup');
-}
-function show(name){ for(const k in screens) screens[k].classList.toggle('hidden',k!==name); window.scrollTo(0,0); }
+function finish(){currentSpeechId++;if(window.speechSynthesis)speechSynthesis.cancel();clearTimeout(timer);show('done');}
+function reset(){currentSpeechId++;if(window.speechSynthesis)speechSynthesis.cancel();clearTimeout(timer);paused=false;idx=0;show('setup');}
+function show(name){for(const k in screens)screens[k].classList.toggle('hidden',k!==name);window.scrollTo(0,0);}
 
-/* ---------- arranque ---------- */
-$('startBtn').onclick=()=>{
-  // gesto de usuario: desbloquea la voz en iOS
-  if(cfg.voice && window.speechSynthesis){
-    const u=new SpeechSynthesisUtterance(' '); u.volume=0; speechSynthesis.speak(u);
-  }
-  script=buildScript(); idx=0; paused=false;
-  show('narrate'); showStep();
-};
+$('startBtn').onclick=()=>{if(cfg.voice&&window.speechSynthesis){const u=new SpeechSynthesisUtterance(' ');u.volume=0;speechSynthesis.speak(u);}script=buildScript();idx=0;paused=false;show('narrate');showStep();};
 $('againBtn').onclick=reset;
 
-/* init */
-refresh();
-$('voiceRow').classList.toggle('hidden',!cfg.voice);
-
-// Desbloquea Siri en iOS al abrir la app
-(function(){
-  if(!window.speechSynthesis) return;
-  try{
-    const u=new SpeechSynthesisUtterance(' ');
-    u.volume=0;
-    u.onend=()=>console.log('✓ Siri desbloqueado');
-    speechSynthesis.speak(u);
-  }catch(e){}
-})();
+refresh();$('voiceRow').classList.toggle('hidden',!cfg.voice);
+(function(){if(!window.speechSynthesis)return;try{const u=new SpeechSynthesisUtterance(' ');u.volume=0;u.onend=()=>console.log('✓ Siri desbloqueado');speechSynthesis.speak(u);}catch(e){}})();
 </script>
 </body>
 </html>
