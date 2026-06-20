@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>Narrador · La Resistencia: Avalon</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=Spectral:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --night:#0a0d18;
+    --night-2:#11152a;
+    --panel:rgba(255,255,255,0.03);
+    --candle:#e3b34e;
+    --candle-soft:#f0d28a;
+    --crimson:#b13347;
+    --crimson-soft:#d4566a;
+    --parchment:#ece3d0;
+    --muted:#6b7390;
+    --line:rgba(236,227,208,0.12);
+    --display:'Cormorant Garamond',Georgia,serif;
+    --read:'Spectral',Georgia,serif;
+    --ui:system-ui,-apple-system,'Segoe UI',sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+  html,body{height:100%}
+  body{
+    background:
+      radial-gradient(120% 90% at 50% -10%, #1a1f3a 0%, var(--night) 55%, #05060d 100%);
+    color:var(--parchment);
+    font-family:var(--read);
+    min-height:100dvh;
+    overflow-x:hidden;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{
+    max-width:760px;margin:0 auto;
+    padding:max(24px,env(safe-area-inset-top)) 22px max(40px,env(safe-area-inset-bottom));
+    min-height:100dvh;display:flex;flex-direction:column;
+  }
+
+  /* ---------- header ---------- */
+  .eyebrow{
+    font-family:var(--ui);font-size:.66rem;letter-spacing:.42em;text-transform:uppercase;
+    color:var(--muted);margin-bottom:.5em;
+  }
+  h1{
+    font-family:var(--display);font-weight:700;font-size:clamp(2.4rem,8vw,3.6rem);
+    line-height:.95;letter-spacing:.01em;
+  }
+  h1 .sub{display:block;font-style:italic;font-weight:500;font-size:.5em;color:var(--candle);letter-spacing:.04em;margin-top:.15em}
+  .lede{color:var(--muted);font-size:1.02rem;margin-top:1rem;max-width:46ch}
+
+  /* ---------- setup ---------- */
+  .screen{flex:1;display:flex;flex-direction:column}
+  .hidden{display:none!important}
+
+  .block{margin-top:2.4rem}
+  .label{
+    font-family:var(--ui);font-size:.7rem;letter-spacing:.28em;text-transform:uppercase;
+    color:var(--muted);display:flex;align-items:center;gap:.8em;margin-bottom:1rem;
+  }
+  .label::after{content:"";flex:1;height:1px;background:var(--line)}
+
+  /* player count */
+  .counter{display:flex;align-items:center;gap:1.4rem}
+  .counter button{
+    width:54px;height:54px;border-radius:50%;border:1px solid var(--line);
+    background:var(--panel);color:var(--parchment);font-size:1.6rem;font-family:var(--display);
+    cursor:pointer;transition:.18s;line-height:1;
+  }
+  .counter button:hover{border-color:var(--candle);color:var(--candle)}
+  .counter button:active{transform:scale(.92)}
+  .count-val{font-family:var(--display);font-size:3.4rem;font-weight:600;min-width:1.6ch;text-align:center}
+  .count-meta{font-family:var(--ui);font-size:.78rem;letter-spacing:.05em;line-height:1.7}
+  .count-meta .g{color:var(--candle)}
+  .count-meta .e{color:var(--crimson-soft)}
+
+  /* roles */
+  .roles{display:flex;flex-direction:column;gap:.5rem}
+  .role{
+    display:flex;align-items:center;gap:1rem;padding:.95rem 1.1rem;border-radius:12px;
+    border:1px solid var(--line);background:var(--panel);cursor:pointer;
+    transition:.18s;user-select:none;position:relative;
+  }
+  .role .crest{width:9px;height:9px;border-radius:50%;flex:none;box-shadow:0 0 10px currentColor}
+  .role.good .crest{color:var(--candle);background:var(--candle)}
+  .role.evil .crest{color:var(--crimson);background:var(--crimson)}
+  .role .name{font-family:var(--display);font-size:1.35rem;font-weight:600;flex:none}
+  .role .desc{font-family:var(--ui);font-size:.76rem;color:var(--muted);line-height:1.4;flex:1}
+  .role .mark{
+    width:26px;height:26px;border-radius:7px;border:1px solid var(--line);flex:none;
+    display:grid;place-items:center;transition:.18s;
+  }
+  .role.on{border-color:rgba(227,179,78,.5);background:rgba(227,179,78,.06)}
+  .role.evil.on{border-color:rgba(177,51,71,.5);background:rgba(177,51,71,.07)}
+  .role.on .mark{background:var(--candle);border-color:var(--candle)}
+  .role.evil.on .mark{background:var(--crimson);border-color:var(--crimson)}
+  .role .mark svg{opacity:0;transition:.18s}
+  .role.on .mark svg{opacity:1}
+  .role.fixed{cursor:default;opacity:.9}
+  .role.fixed .mark{background:var(--muted);border-color:var(--muted);opacity:.55}
+  .role.disabled{opacity:.32;cursor:not-allowed}
+  .role .tag{font-family:var(--ui);font-size:.6rem;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin-left:auto;flex:none}
+
+  .warn{
+    font-family:var(--ui);font-size:.8rem;color:var(--crimson-soft);margin-top:.9rem;
+    padding-left:1.1rem;border-left:2px solid var(--crimson);line-height:1.5;
+  }
+
+  /* options */
+  .opt-row{display:flex;align-items:center;justify-content:space-between;padding:.7rem 0;border-bottom:1px solid var(--line)}
+  .opt-row:last-child{border-bottom:none}
+  .opt-row .t{font-family:var(--ui);font-size:.92rem}
+  .opt-row .t small{display:block;color:var(--muted);font-size:.74rem;margin-top:.15em}
+  .switch{width:46px;height:26px;border-radius:14px;background:rgba(255,255,255,.1);position:relative;cursor:pointer;transition:.2s;flex:none}
+  .switch::after{content:"";position:absolute;top:3px;left:3px;width:20px;height:20px;border-radius:50%;background:var(--parchment);transition:.2s}
+  .switch.on{background:var(--candle)}
+  .switch.on::after{left:23px;background:var(--night)}
+  .slider{display:flex;align-items:center;gap:1rem;margin-top:.4rem}
+  input[type=range]{flex:1;accent-color:var(--candle);height:4px}
+  .slider .v{font-family:var(--display);font-size:1.5rem;min-width:3.2ch;text-align:right;color:var(--candle)}
+
+  /* start button */
+  .start{
+    margin-top:auto;padding-top:2.4rem;
+  }
+  .btn-primary{
+    width:100%;padding:1.15rem;border:none;border-radius:14px;cursor:pointer;
+    font-family:var(--display);font-size:1.5rem;font-weight:600;letter-spacing:.02em;
+    color:var(--night);background:linear-gradient(180deg,var(--candle-soft),var(--candle));
+    box-shadow:0 0 40px rgba(227,179,78,.25);transition:.18s;
+  }
+  .btn-primary:hover{box-shadow:0 0 60px rgba(227,179,78,.4)}
+  .btn-primary:active{transform:scale(.985)}
+
+  details.ref{margin-top:1.6rem;border-top:1px solid var(--line);padding-top:1rem}
+  details.ref summary{font-family:var(--ui);font-size:.78rem;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);cursor:pointer;list-style:none}
+  details.ref summary::-webkit-details-marker{display:none}
+  details.ref summary::before{content:"▸ ";color:var(--candle)}
+  details.ref[open] summary::before{content:"▾ "}
+  .ref table{width:100%;border-collapse:collapse;margin-top:1rem;font-family:var(--ui);font-size:.82rem}
+  .ref th,.ref td{padding:.45rem .3rem;text-align:center;border-bottom:1px solid var(--line)}
+  .ref th{color:var(--muted);font-weight:500;font-size:.7rem;letter-spacing:.08em;text-transform:uppercase}
+  .ref td:first-child{color:var(--candle);font-family:var(--display);font-size:1.1rem}
+
+  /* ---------- narration ---------- */
+  #narrate{align-items:center;justify-content:center;text-align:center;position:relative}
+  .orb-wrap{position:relative;display:grid;place-items:center;margin:1rem 0 2.4rem}
+  .orb{
+    width:150px;height:150px;border-radius:50%;
+    background:radial-gradient(circle at 50% 42%, var(--candle-soft), var(--candle) 35%, #7a5a18 78%, transparent 80%);
+    box-shadow:0 0 60px 10px rgba(227,179,78,.35), inset 0 0 30px rgba(0,0,0,.3);
+    transition:background .8s, box-shadow .8s, transform .8s;
+    position:relative;
+  }
+  .orb.evil{
+    background:radial-gradient(circle at 50% 42%, var(--crimson-soft), var(--crimson) 38%, #4a121d 80%, transparent 82%);
+    box-shadow:0 0 60px 10px rgba(177,51,71,.4), inset 0 0 30px rgba(0,0,0,.35);
+  }
+  .orb.dawn{
+    background:radial-gradient(circle at 50% 42%, #fff6e0, var(--candle-soft) 40%, #8a6a28 82%, transparent 84%);
+    box-shadow:0 0 90px 24px rgba(240,210,138,.5), inset 0 0 30px rgba(0,0,0,.2);
+  }
+  .orb.dim{transform:scale(.82);box-shadow:0 0 24px 4px rgba(227,179,78,.12)}
+  .orb.dim.evil{box-shadow:0 0 24px 4px rgba(177,51,71,.14)}
+  .orb.speaking{animation:breathe 2.6s ease-in-out infinite}
+  @keyframes breathe{0%,100%{transform:scale(1)}50%{transform:scale(1.07)}}
+  .ring{position:absolute;inset:-26px;border-radius:50%;border:1px solid var(--line);opacity:.5}
+  .ring.r2{inset:-52px;opacity:.25}
+
+  .step-tag{font-family:var(--ui);font-size:.68rem;letter-spacing:.34em;text-transform:uppercase;color:var(--muted);margin-bottom:1.2rem}
+  .line{
+    font-family:var(--display);font-weight:600;
+    font-size:clamp(1.9rem,6vw,2.9rem);line-height:1.18;
+    max-width:18ch;margin:0 auto;min-height:3.4em;display:flex;align-items:center;justify-content:center;
+    transition:opacity .4s;
+  }
+  .line.evil-text{color:var(--crimson-soft)}
+  .line.good-text{color:var(--candle)}
+  .progress{display:flex;gap:7px;justify-content:center;margin-top:2rem}
+  .progress i{width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.13);transition:.3s}
+  .progress i.done{background:var(--muted)}
+  .progress i.cur{background:var(--candle);box-shadow:0 0 10px var(--candle);transform:scale(1.3)}
+
+  .controls{display:flex;gap:.7rem;justify-content:center;margin-top:2.6rem;flex-wrap:wrap}
+  .ctrl{
+    font-family:var(--ui);font-size:.82rem;letter-spacing:.04em;
+    padding:.7rem 1.15rem;border-radius:10px;border:1px solid var(--line);
+    background:var(--panel);color:var(--parchment);cursor:pointer;transition:.18s;
+    display:inline-flex;align-items:center;gap:.5em;
+  }
+  .ctrl:hover{border-color:var(--candle);color:var(--candle)}
+  .ctrl:active{transform:scale(.95)}
+  .ctrl.main{background:rgba(227,179,78,.1);border-color:rgba(227,179,78,.4);color:var(--candle);font-size:.95rem;padding:.85rem 1.7rem}
+  .ctrl.ghost{color:var(--muted);border-color:transparent}
+  .ctrl svg{width:16px;height:16px;fill:currentColor}
+
+  .done-card{text-align:center}
+  .done-card h2{font-family:var(--display);font-size:2.6rem;font-weight:600;color:var(--candle)}
+  .done-card p{color:var(--muted);margin:1rem 0 2rem;font-size:1.05rem}
+
+  .note{font-family:var(--ui);font-size:.74rem;color:var(--muted);margin-top:2rem;line-height:1.5;max-width:42ch}
+
+  @media (prefers-reduced-motion:reduce){
+    .orb.speaking{animation:none}
+    *{transition:none!important}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- ============ SETUP ============ -->
+  <section class="screen" id="setup">
+    <header>
+      <div class="eyebrow">El narrador de la mesa redonda</div>
+      <h1>La Resistencia<span class="sub">Avalon</span></h1>
+      <p class="lede">Guía la fase nocturna en voz alta para que nadie tenga que quedarse fuera de la partida haciendo de moderador.</p>
+    </header>
+
+    <div class="block">
+      <div class="label">Jugadores en la mesa</div>
+      <div class="counter">
+        <button id="minus" aria-label="Quitar jugador">−</button>
+        <div class="count-val" id="pcount">7</div>
+        <button id="plus" aria-label="Añadir jugador">+</button>
+        <div class="count-meta" id="split"></div>
+      </div>
+    </div>
+
+    <div class="block">
+      <div class="label">Personajes en juego</div>
+      <div class="roles" id="roles"></div>
+      <div class="warn hidden" id="warn"></div>
+    </div>
+
+    <div class="block">
+      <div class="label">Ritmo de la narración</div>
+      <div class="opt-row">
+        <div class="t">Narrar en voz alta
+          <small>Usa la voz del dispositivo. Apágalo para leer tú mismo cada paso.</small>
+        </div>
+        <div class="switch on" id="voiceToggle" role="switch" aria-checked="true"></div>
+      </div>
+      <div class="opt-row">
+        <div class="t">Avanzar solo
+          <small>Pasa al siguiente paso automáticamente tras cada pausa.</small>
+        </div>
+        <div class="switch on" id="autoToggle" role="switch" aria-checked="true"></div>
+      </div>
+      <div class="opt-row" style="display:block">
+        <div class="t">Pausa entre pasos</div>
+        <div class="slider">
+          <input type="range" id="pause" min="2" max="7" step="1" value="4">
+          <div class="v"><span id="pauseV">4</span>s</div>
+        </div>
+      </div>
+      <div class="opt-row hidden" id="voiceRow" style="display:block">
+        <div class="t">Voz</div>
+        <div class="slider">
+          <select id="voiceSel" style="flex:1;background:var(--night-2);color:var(--parchment);border:1px solid var(--line);border-radius:8px;padding:.6rem;font-family:var(--ui);font-size:.85rem"></select>
+        </div>
+      </div>
+    </div>
+
+    <div class="start">
+      <button class="btn-primary" id="startBtn">Comenzar la noche</button>
+    </div>
+
+    <details class="ref">
+      <summary>Tabla de referencia</summary>
+      <table>
+        <thead><tr><th>Jug.</th><th>Buenos</th><th>Malos</th><th>M1</th><th>M2</th><th>M3</th><th>M4</th><th>M5</th></tr></thead>
+        <tbody id="refbody"></tbody>
+      </table>
+      <p class="note">M = jugadores en cada misión. En partidas de 7 o más, la 4ª misión necesita 2 fracasos para fallar.</p>
+    </details>
+  </section>
+
+  <!-- ============ NARRATION ============ -->
+  <section class="screen hidden" id="narrate">
+    <div class="step-tag" id="stepTag">La noche</div>
+    <div class="orb-wrap">
+      <span class="ring"></span><span class="ring r2"></span>
+      <div class="orb dim" id="orb"></div>
+    </div>
+    <div class="line" id="line"></div>
+    <div class="progress" id="progress"></div>
+    <div class="controls" id="controls"></div>
+  </section>
+
+  <!-- ============ DONE ============ -->
+  <section class="screen hidden" id="done">
+    <div class="done-card" style="margin:auto">
+      <div class="orb dawn" style="width:90px;height:90px;margin:0 auto 2rem"></div>
+      <h2>Amanece en Camelot</h2>
+      <p>La fase nocturna ha terminado. Que comience la votación de equipos.</p>
+      <button class="ctrl main" id="againBtn">Nueva partida</button>
+    </div>
+  </section>
+
+</div>
+
+<script>
+"use strict";
+/* ---------- datos del juego ---------- */
+const SPLIT = {5:[3,2],6:[4,2],7:[4,3],8:[5,3],9:[6,3],10:[6,4]};
+const MISSIONS = {
+  5:[2,3,2,3,3], 6:[2,3,4,3,4], 7:[2,3,3,4,4],
+  8:[3,4,4,5,5], 9:[3,4,4,5,5], 10:[3,4,4,5,5]
+};
+const OPTIONAL = [
+  {id:'percival',name:'Percival',side:'good',desc:'Conoce a Merlín y a Morgana, pero no sabe quién es quién.'},
+  {id:'mordred', name:'Mordred', side:'evil',desc:'Esbirro oculto: Merlín nunca lo ve.'},
+  {id:'morgana', name:'Morgana', side:'evil',desc:'Esbirra que se muestra como Merlín ante Percival.'},
+  {id:'oberon',  name:'Oberón',  side:'evil',desc:'Esbirro solitario: ni conoce ni es conocido por los demás malos.'},
+];
+
+/* ---------- estado ---------- */
+const cfg = {players:7, percival:true, mordred:false, morgana:true, oberon:false,
+             voice:true, auto:true, pause:4};
+
+/* ---------- referencias DOM ---------- */
+const $ = id => document.getElementById(id);
+const screens = {setup:$('setup'), narrate:$('narrate'), done:$('done')};
+
+/* ====== construir tabla de referencia ====== */
+(function(){
+  let html='';
+  for(let p=5;p<=10;p++){
+    const [g,e]=SPLIT[p], m=MISSIONS[p];
+    html+=`<tr><td>${p}</td><td>${g}</td><td>${e}</td>${m.map(x=>`<td>${x}</td>`).join('')}</tr>`;
+  }
+  $('refbody').innerHTML=html;
+})();
+
+/* ====== render configuración ====== */
+function evilSelected(){ return 1 + (cfg.mordred?1:0)+(cfg.morgana?1:0)+(cfg.oberon?1:0); } // +1 = Asesino
+function evilSlots(){ return SPLIT[cfg.players][1]; }
+
+function renderRoles(){
+  const box=$('roles');
+  // fijos
+  let html=`
+    <div class="role good fixed">
+      <span class="crest"></span><span class="name">Merlín</span>
+      <span class="desc">Conoce a los esbirros del Mal (salvo a Mordred).</span>
+      <span class="tag">Siempre</span>
+    </div>
+    <div class="role evil fixed">
+      <span class="crest"></span><span class="name">Asesino</span>
+      <span class="desc">Un esbirro. Si el Bien gana, intenta adivinar a Merlín.</span>
+      <span class="tag">Siempre</span>
+    </div>`;
+  const check=`<svg width="14" height="14" viewBox="0 0 14 14"><path d="M2 7l3.5 3.5L12 3" stroke="#0a0d18" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+  OPTIONAL.forEach(r=>{
+    const on=cfg[r.id];
+    const wouldExceed = r.side==='evil' && !on && (evilSelected()+1>evilSlots());
+    box && (html+=`
+      <div class="role ${r.side} ${on?'on':''} ${wouldExceed?'disabled':''}" data-id="${r.id}">
+        <span class="crest"></span><span class="name">${r.name}</span>
+        <span class="desc">${r.desc}</span>
+        <span class="mark">${check}</span>
+      </div>`);
+  });
+  box.innerHTML=html;
+  box.querySelectorAll('.role[data-id]').forEach(el=>{
+    el.onclick=()=>{
+      if(el.classList.contains('disabled')) return;
+      const id=el.dataset.id;
+      cfg[id]=!cfg[id];
+      refresh();
+    };
+  });
+  // aviso
+  const w=$('warn');
+  if(evilSelected()>evilSlots()){
+    w.textContent=`Hay ${evilSelected()} personajes malos elegidos pero esta partida solo admite ${evilSlots()}. Quita uno.`;
+    w.classList.remove('hidden');
+  } else if(cfg.morgana && !cfg.percival){
+    w.textContent='Morgana solo tiene efecto si Percival está en juego. Funciona, pero no aportará nada.';
+    w.classList.remove('hidden');
+  } else if(cfg.percival && !cfg.morgana){
+    w.textContent='Sin Morgana, Percival verá únicamente a Merlín (sin señuelo).';
+    w.classList.remove('hidden');
+  } else w.classList.add('hidden');
+}
+
+function renderSplit(){
+  const [g,e]=SPLIT[cfg.players];
+  $('pcount').textContent=cfg.players;
+  $('split').innerHTML=`<span class="g">${g} del Bien</span><br><span class="e">${e} del Mal</span>`;
+}
+
+function refresh(){ renderSplit(); renderRoles(); }
+
+/* contador de jugadores */
+$('minus').onclick=()=>{ cfg.players=Math.max(5,cfg.players-1); clampEvil(); refresh(); };
+$('plus').onclick =()=>{ cfg.players=Math.min(10,cfg.players+1); refresh(); };
+function clampEvil(){
+  // al bajar jugadores, desactiva malos sobrantes en orden oberón→morgana→mordred
+  ['oberon','morgana','mordred'].forEach(id=>{
+    if(evilSelected()>evilSlots() && cfg[id]) cfg[id]=false;
+  });
+}
+
+/* toggles */
+function bindSwitch(elId,key,extra){
+  const el=$(elId);
+  el.onclick=()=>{ cfg[key]=!cfg[key]; el.classList.toggle('on',cfg[key]); el.setAttribute('aria-checked',cfg[key]); extra&&extra(); };
+}
+bindSwitch('voiceToggle','voice',()=>$('voiceRow').classList.toggle('hidden',!cfg.voice));
+bindSwitch('autoToggle','auto');
+$('pause').oninput=e=>{ cfg.pause=+e.target.value; $('pauseV').textContent=cfg.pause; };
+
+/* ---------- voces ---------- */
+let voices=[];
+function loadVoices(){
+  voices=(window.speechSynthesis?speechSynthesis.getVoices():[]).filter(v=>v.lang.toLowerCase().startsWith('es'));
+  const sel=$('voiceSel'); if(!sel) return;
+  if(!voices.length){ sel.innerHTML='<option>No hay voces en español instaladas</option>'; return; }
+  sel.innerHTML=voices.map((v,i)=>`<option value="${i}">${v.name} · ${v.lang}</option>`).join('');
+}
+if(window.speechSynthesis){
+  loadVoices();
+  speechSynthesis.onvoiceschanged=loadVoices;
+}else{
+  cfg.voice=false; $('voiceToggle').classList.remove('on');
+}
+
+/* ---------- generar guión ---------- */
+function buildScript(){
+  const s=[];
+  const push=(text,mood,extra)=>s.push({text,mood,pause:cfg.pause+(extra||0)});
+  const oberonExcept = cfg.oberon ? ', excepto Oberón' : '';
+
+  push('Todos los jugadores: cierren los ojos y extiendan el puño frente a ustedes.','all',1);
+
+  // reconocimiento del mal
+  push(`Esbirros de Mordred${oberonExcept}: abran los ojos y reconózcanse entre ustedes.`,'evil',3);
+  push(`Esbirros de Mordred${oberonExcept}: cierren los ojos.`,'evil',0);
+
+  // Merlín
+  const merlinExcept = cfg.mordred ? ', excepto Mordred,' : '';
+  push(`Esbirros de Mordred${merlinExcept} levanten el pulgar para que Merlín pueda reconocerlos.`,'evil',1);
+  push('Merlín: abre los ojos y observa quiénes son los agentes del Mal.','good',3);
+  push('Esbirros de Mordred: bajen el pulgar y vuelvan a cerrar el puño.','evil',0);
+  push('Merlín: cierra los ojos.','good',0);
+
+  // Percival
+  if(cfg.percival){
+    const pair = cfg.morgana ? 'Merlín y Morgana' : 'Merlín';
+    push(`${pair}: levanten el pulgar para que Percival pueda reconocerlos.`,'good',1);
+    push(`Percival: abre los ojos y observa a ${pair}.`,'good',3);
+    push(`${pair}: bajen el pulgar.`,'good',0);
+    push('Percival: cierra los ojos.','good',0);
+  }
+
+  push('Todos los jugadores: abran los ojos. La noche ha terminado.','dawn',0);
+  return s;
+}
+
+/* ---------- motor de narración ---------- */
+let script=[], idx=0, paused=false, timer=null;
+const orb=$('orb'), lineEl=$('line'), stepTag=$('stepTag'), progEl=$('progress');
+
+function renderProgress(){
+  progEl.innerHTML=script.map((_,i)=>`<i class="${i<idx?'done':i===idx?'cur':''}"></i>`).join('');
+}
+function setMood(m){
+  orb.classList.remove('evil','dawn');
+  lineEl.classList.remove('evil-text','good-text');
+  if(m==='evil'){ orb.classList.add('evil'); lineEl.classList.add('evil-text'); }
+  else if(m==='good'){ lineEl.classList.add('good-text'); }
+  else if(m==='dawn'){ orb.classList.add('dawn'); }
+}
+
+function speak(text,onDone){
+  if(!cfg.voice || !window.speechSynthesis){ onDone&&onDone(); return; }
+  speechSynthesis.cancel();
+  const u=new SpeechSynthesisUtterance(text);
+  const v=voices[+($('voiceSel').value)||0];
+  if(v) u.voice=v;
+  u.lang=v?v.lang:'es-ES';
+  u.rate=.95; u.pitch=1;
+  u.onend=()=>onDone&&onDone();
+  u.onerror=()=>onDone&&onDone();
+  speechSynthesis.speak(u);
+}
+
+function showStep(){
+  clearTimeout(timer);
+  if(idx>=script.length){ finish(); return; }
+  const step=script[idx];
+  setMood(step.mood);
+  stepTag.textContent = step.mood==='evil'?'El Mal despierta'
+    : step.mood==='good'?'La visión del Bien'
+    : step.mood==='dawn'?'Amanecer':'La noche';
+  lineEl.style.opacity=0;
+  setTimeout(()=>{ lineEl.textContent=step.text; lineEl.style.opacity=1; },180);
+  renderProgress();
+  orb.classList.remove('dim'); orb.classList.add('speaking');
+
+  speak(step.text,()=>{
+    orb.classList.remove('speaking'); orb.classList.add('dim');
+    if(cfg.auto && !paused){
+      timer=setTimeout(()=>{ if(!paused){ idx++; showStep(); } }, step.pause*1000);
+    }
+    renderControls();
+  });
+  renderControls();
+}
+
+function next(){ clearTimeout(timer); if(window.speechSynthesis)speechSynthesis.cancel(); idx++; showStep(); }
+function repeat(){ clearTimeout(timer); showStep(); }
+function togglePause(){
+  paused=!paused;
+  if(paused){ clearTimeout(timer); if(window.speechSynthesis)speechSynthesis.pause(); }
+  else{ if(window.speechSynthesis)speechSynthesis.resume();
+        if(cfg.auto) timer=setTimeout(()=>{ if(!paused){ idx++; showStep(); } }, 1200); }
+  renderControls();
+}
+
+function renderControls(){
+  const c=$('controls');
+  const ic={
+    play:'<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>',
+    pause:'<svg viewBox="0 0 24 24"><path d="M6 5h4v14H6zM14 5h4v14h-4z"/></svg>',
+    rep:'<svg viewBox="0 0 24 24"><path d="M12 5V1L7 6l5 5V7a5 5 0 11-5 5H5a7 7 0 107-7z"/></svg>',
+    nxt:'<svg viewBox="0 0 24 24"><path d="M6 18l8.5-6L6 6zM16 6h2v12h-2z"/></svg>'
+  };
+  let btns='';
+  if(cfg.auto){
+    btns+=`<button class="ctrl main" data-a="pause">${paused?ic.play+' Reanudar':ic.pause+' Pausa'}</button>`;
+  }else{
+    btns+=`<button class="ctrl main" data-a="next">${ic.nxt} Siguiente paso</button>`;
+  }
+  btns+=`<button class="ctrl" data-a="repeat">${ic.rep} Repetir</button>`;
+  if(cfg.auto) btns+=`<button class="ctrl" data-a="next">${ic.nxt} Saltar</button>`;
+  btns+=`<button class="ctrl ghost" data-a="quit">Terminar</button>`;
+  c.innerHTML=btns;
+  c.querySelectorAll('button').forEach(b=>{
+    b.onclick=()=>({pause:togglePause,next:next,repeat:repeat,quit:reset}[b.dataset.a])();
+  });
+}
+
+function finish(){
+  if(window.speechSynthesis)speechSynthesis.cancel();
+  show('done');
+}
+function reset(){
+  clearTimeout(timer);
+  if(window.speechSynthesis)speechSynthesis.cancel();
+  paused=false; idx=0;
+  show('setup');
+}
+function show(name){ for(const k in screens) screens[k].classList.toggle('hidden',k!==name); window.scrollTo(0,0); }
+
+/* ---------- arranque ---------- */
+$('startBtn').onclick=()=>{
+  // gesto de usuario: desbloquea la voz en iOS
+  if(cfg.voice && window.speechSynthesis){
+    const u=new SpeechSynthesisUtterance(' '); u.volume=0; speechSynthesis.speak(u);
+  }
+  script=buildScript(); idx=0; paused=false;
+  show('narrate'); showStep();
+};
+$('againBtn').onclick=reset;
+
+/* init */
+refresh();
+$('voiceRow').classList.toggle('hidden',!cfg.voice);
+
+// Desbloquea Siri en iOS al abrir la app
+(function(){
+  if(!window.speechSynthesis) return;
+  try{
+    const u=new SpeechSynthesisUtterance(' ');
+    u.volume=0;
+    u.onend=()=>console.log('✓ Siri desbloqueado');
+    speechSynthesis.speak(u);
+  }catch(e){}
+})();
+</script>
+</body>
+</html>
